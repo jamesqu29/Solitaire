@@ -6,6 +6,10 @@ class SuitPile extends CardPile {
 	}
 
 	public boolean canTake (Card aCard) {//provide code here
-		return false; //todo
+		if (isEmpty()){
+			return aCard.rank() == 0; //only ace can be place on a empty suitPile
+		}
+		Card topCard = top();
+		return (aCard.suit() == topCard.suit()) && (aCard.rank() == 1 + topCard.rank());
 	}
 }

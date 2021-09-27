@@ -6,6 +6,8 @@ class DiscardPile extends CardPile {
 	}
 
 	public void addCard (Card aCard) {//provide code here
+		if (! aCard.faceUp())
+			aCard.flip();
 		super.addCard(aCard);
 	}
 

@@ -21,7 +21,11 @@ class TablePile extends CardPile {
 	}
 
 	public boolean canTake (Card aCard) {//provide code here
-		return false;
+		if (isEmpty())
+			return aCard.rank() == 12;
+		Card topCard = top();
+		return (aCard.color()!= topCard.color()) &&
+				(aCard.rank() == topCard.rank() -1 );
 		
 	}
 

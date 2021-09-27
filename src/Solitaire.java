@@ -52,13 +52,15 @@ public class Solitaire {
 			public void mousePressed (MouseEvent e) { 
 				int x = e.getX();
 				int y = e.getY();
-				for (int i = 0; i < 13; i++)
-					if (allPiles[i].includes(x, y)) {
+				for (int i = 0; i < 13; i++) {
+					if (allPiles[i].includes(x, y))
+					{
 						allPiles[i].select(x, y);
 						repaint();
-						}
+					}
 				}
 			}
+		}
 
 
 		public SolitareFrame() {
@@ -68,7 +70,7 @@ public class Solitaire {
 			Button restartButton = new Button("New Game");
 			restartButton.addActionListener(new RestartButtonListener());
 			add("South", restartButton);
-			}
+		}
 
 		public void paint(Graphics g) {
 			for (int i = 0; i < 13; i++) 
