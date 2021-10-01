@@ -1,22 +1,19 @@
 
 import java.awt.*;
+import java.util.Deque;
 import java.util.Enumeration;
 
 class TablePile extends CardPile {
 
 	TablePile (int x, int y, int c) {
 		// initialize the parent class
-		
-		//provide code here
 		super(x,y);	
 		// then initialize our pile of cards
 		for (int i = 0; i < c; i++) {
 			//provide code here
 			addCard(Solitaire.deckPile.pop());
 		}
-		
 		// flip topmost card face up
-		
 		top().flip(); //top() is provided by cardPile class
 	}
 
@@ -30,6 +27,8 @@ class TablePile extends CardPile {
 	}
 
 	public boolean includes (int tx, int ty) {
+		if (isEmpty())
+			return false;
 		// don't test bottom of card
 		return x <= tx && tx <= x + Card.width && y <= ty;
 	}
@@ -51,7 +50,8 @@ class TablePile extends CardPile {
 			if (Solitaire.suitPile[i].canTake(topCard)) {
 				Solitaire.suitPile[i].addCard(topCard);
 				return;
-				}
+			}
+
 			// else see if any other table pile can take card
 		for (int i = 0; i < 7; i++)
 			if (Solitaire.tableau[i].canTake(topCard)) {
@@ -60,7 +60,7 @@ class TablePile extends CardPile {
 				}
 			// else put it back on our pile
 		addCard(topCard);
-		}
+	}
 
 	public void display (Graphics g) {
 		int localy = y;
@@ -69,5 +69,5 @@ class TablePile extends CardPile {
 			aCard.draw (g, x, localy);
 			localy += 35;
 			}
-		}
+	}
 }

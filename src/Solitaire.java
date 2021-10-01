@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 import java.awt.event.*;
@@ -14,13 +15,13 @@ public class Solitaire {
 
 	static public void main (String [ ] args) {
 		Solitaire world = new Solitaire();
-		}
+	}
 
 	public Solitaire () {
 		window = new SolitareFrame();
 		init();
-		window.show();
-		}
+		window.setVisible(true);
+	}
 
 	public void init () {
 			// first allocate the arrays
@@ -44,25 +45,29 @@ public class Solitaire {
 			public void actionPerformed (ActionEvent e) {
 				init();
 				window.repaint();
-				}
 			}
+		}
 
 		private class MouseKeeper extends MouseAdapter {
 
-			public void mousePressed (MouseEvent e) { 
+			@Override
+			public void mousePressed (MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
+
+
 				for (int i = 0; i < 13; i++) {
 					if (allPiles[i].includes(x, y))
 					{
+
 						allPiles[i].select(x, y);
 						repaint();
+
 					}
 				}
 			}
 		}
-
-
+		
 		public SolitareFrame() {
 			setSize(600, 500);
 			setTitle("Solitaire Game");
@@ -73,8 +78,7 @@ public class Solitaire {
 		}
 
 		public void paint(Graphics g) {
-			for (int i = 0; i < 13; i++) 
-				allPiles[i].display(g);
-			}
+			for (int i = 0; i < 13; i++) { allPiles[i].display(g); }
 		}
+	}
 }

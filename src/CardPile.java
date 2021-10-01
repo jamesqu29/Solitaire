@@ -20,7 +20,12 @@ public class CardPile {
 
 	// access to cards are not overridden
 	public final Card top() { //provide code here 
-		return (Card) thePile.peek(); 
+		return (Card) thePile.peek();
+	}
+
+	public void moveTo(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	public final boolean isEmpty() { //provide code here 
