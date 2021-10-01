@@ -51,7 +51,7 @@ class TablePile extends CardPile {
 				Solitaire.suitPile[i].addCard(topCard);
 				return;
 			}
-
+		/*
 			// else see if any other table pile can take card
 		for (int i = 0; i < 7; i++)
 			if (Solitaire.tableau[i].canTake(topCard)) {
@@ -59,7 +59,44 @@ class TablePile extends CardPile {
 				return;
 				}
 			// else put it back on our pile
-		addCard(topCard);
+		addCard(topCard);*/
+
+
+		//create temporary sub-pile
+		CardPile tempPile = new CardPile(0,0);
+		//get the card for this sub-pile from the pile
+		while(!isEmpty()){
+			if (!top().faceUp())
+				break;
+			tempPile.addCard(pop());
+		}
+		// if play only one card
+		if(tempPile.top() == topCard){
+			//put it back to the table pile
+			addCard(tempPile.pop());
+			//test if any other table piles can take card
+			for (int i = 0; i < 7; i++)
+				if (Solitaire.tableau[i].canTake(topCard)) {
+					Solitaire.tableau[i].addCard(topCard);
+					return;
+				}
+
+		}else { //play sub-pile
+			topCard = tempPile.top();
+			// test if any other table pile can take this sub-pile
+			for (int i = 0; i< 7; i++){
+				if (Solitaire.tableau[i].canTake(topCard)) {
+					while (!tempPile.isEmpty())
+						Solitaire.tableau[i].addCard(tempPile.pop());
+					return;
+				}
+			}
+
+			addCard(tempPile.pop());
+
+
+		}
+
 	}
 
 	public void display (Graphics g) {
