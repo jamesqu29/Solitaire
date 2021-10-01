@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+
 import java.awt.event.*;
 import java.util.Enumeration;
 
@@ -71,6 +72,15 @@ public class Solitaire {
 		public SolitareFrame() {
 			setSize(600, 500);
 			setTitle("Solitaire Game");
+			
+			 //allows the program to be closed when x icon is clicked
+            addMouseListener (new MouseKeeper());
+               addWindowListener(new WindowAdapter(){
+                   public void windowClosing(WindowEvent we){
+                     System.exit(0);
+                   }
+                 });
+               
 			addMouseListener (new MouseKeeper());
 			Button restartButton = new Button("New Game");
 			restartButton.addActionListener(new RestartButtonListener());
