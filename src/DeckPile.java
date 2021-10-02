@@ -1,4 +1,6 @@
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 class DeckPile extends CardPile {
@@ -29,10 +31,15 @@ class DeckPile extends CardPile {
 		}
 	}
 
-	public void select(int tx, int ty) {//provide code here 
+	public void select(int tx, int ty) {
+		//if deck pile becomes empty, add from the discard pile
 		if (isEmpty()){
-			return;
+			while(!Solitaire.discardPile.isEmpty()){
+				addCard(Solitaire.discardPile.pop());
+				top().flip();
+			}
 		}
 		Solitaire.discardPile.addCard(pop());
+
 	}
 }

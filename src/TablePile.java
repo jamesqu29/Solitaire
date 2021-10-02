@@ -39,18 +39,19 @@ class TablePile extends CardPile {
 
 		// if face down, then flip
 		Card topCard = top();
-		if (! topCard.faceUp()) {
+		if (!topCard.faceUp()) {
 			topCard.flip();
 			return;
 		}
 
 		// else see if any suit pile can take card
-		topCard = pop();
-		for (int i = 0; i < 4; i++)
+
+		for (int i = 0; i < 4; i++){
 			if (Solitaire.suitPile[i].canTake(topCard)) {
-				Solitaire.suitPile[i].addCard(topCard);
+				Solitaire.suitPile[i].addCard(pop());
 				return;
 			}
+		}
 		/*
 			// else see if any other table pile can take card
 		for (int i = 0; i < 7; i++)
@@ -63,7 +64,7 @@ class TablePile extends CardPile {
 
 
 		//create temporary sub-pile
-		CardPile tempPile = new CardPile(0,0);
+		CardPile tempPile = new CardPile(10,10);
 		//get the card for this sub-pile from the pile
 		while(!isEmpty()){
 			if (!top().faceUp())
@@ -72,29 +73,30 @@ class TablePile extends CardPile {
 		}
 		// if play only one card
 		if(tempPile.top() == topCard){
+
 			//put it back to the table pile
 			addCard(tempPile.pop());
 			//test if any other table piles can take card
 			for (int i = 0; i < 7; i++)
 				if (Solitaire.tableau[i].canTake(topCard)) {
-					Solitaire.tableau[i].addCard(topCard);
+					Solitaire.tableau[i].addCard(pop());
 					return;
 				}
 
-		}else { //play sub-pile
+		} else { //play sub-pile
 			topCard = tempPile.top();
 			// test if any other table pile can take this sub-pile
-			for (int i = 0; i< 7; i++){
+			for (int i = 0; i< 7; i++) {
 				if (Solitaire.tableau[i].canTake(topCard)) {
 					while (!tempPile.isEmpty())
 						Solitaire.tableau[i].addCard(tempPile.pop());
 					return;
 				}
 			}
-
-			addCard(tempPile.pop());
-
-
+			//put every card in this sub-pile to the pile
+			while (!tempPile.isEmpty()){
+				addCard(tempPile.pop());
+			}
 		}
 
 	}

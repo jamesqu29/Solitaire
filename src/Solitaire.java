@@ -56,14 +56,11 @@ public class Solitaire {
 				int x = e.getX();
 				int y = e.getY();
 
-
 				for (int i = 0; i < 13; i++) {
 					if (allPiles[i].includes(x, y))
 					{
-
 						allPiles[i].select(x, y);
 						repaint();
-
 					}
 				}
 			}
@@ -75,13 +72,13 @@ public class Solitaire {
 			
 			 //allows the program to be closed when x icon is clicked
             addMouseListener (new MouseKeeper());
-               addWindowListener(new WindowAdapter(){
-                   public void windowClosing(WindowEvent we){
-                     System.exit(0);
-                   }
-                 });
-               
-			addMouseListener (new MouseKeeper());
+
+            addWindowListener(new WindowAdapter(){
+            	public void windowClosing(WindowEvent we){
+					 System.exit(0);
+            	}
+            });
+
 			Button restartButton = new Button("New Game");
 			restartButton.addActionListener(new RestartButtonListener());
 			add("South", restartButton);

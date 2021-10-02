@@ -19,8 +19,8 @@ public class CardPile {
 	}
 
 	// access to cards are not overridden
-	public final Card top() { //provide code here 
-		return (Card) thePile.peek();
+	public final Card top() {
+		return (Card) thePile.peek(); //look at it but not pop
 	}
 
 	public void moveTo(int x, int y) {
