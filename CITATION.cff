@@ -5,13 +5,13 @@ authors:
   given-names: "Chengwen"
 - family-names: "Aldosh"
   given-names: "Tasneem"
-  - family-names: "Guerin"
+- family-names: "Guerin"
   given-names: "Brianna"
-  - family-names: "Hjije"
+- family-names: "Hjije"
   given-names: "Amal"
-  - family-names: "McNally"
+- family-names: "McNally"
   given-names: "Devon"
-
+version: 0.25
 title: "Algonquin College CST8334_450 Group 3 Solitaire"
-date-created: 2021-09-25
+date-released: 2021-09-25
 url: "https://github.com/jamesqu29/Solitaire"
