@@ -1,1 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Qu"
+  given-names: "Chengwen"
+- family-names: "Aldosh"
+  given-names: "Tasneem"
+  - family-names: "Guerin"
+  given-names: "Brianna"
+  - family-names: "Hjije"
+  given-names: "Amal"
+  - family-names: "McNally"
+  given-names: "Devon"
 
+title: "Algonquin College CST8334_450 Group 3 Solitaire"
+date-created: 2021-09-25
+url: "https://github.com/jamesqu29/Solitaire"
