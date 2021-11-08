@@ -1,112 +1,112 @@
+/*
+TablePile class inherited cardPile class for building seven table piles.
+ */
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.Stack;
 
-import java.awt.*;
-import java.util.Deque;
-import java.util.Enumeration;
+public class TablePile extends CardPile {
 
-class TablePile extends CardPile {
-
-	TablePile (int x, int y, int c) {
-		// initialize the parent class
-		super(x,y);	
-		// then initialize our pile of cards
-		for (int i = 0; i < c; i++) {
-			//provide code here
-			addCard(Solitaire.deckPile.pop());
+	public TablePile(int x, int y, int initSize) {
+		super(x, y);
+		super.setSize(72, 450);
+		super.setOpaque(false);
+		for (int i = 0; i < initSize; ++i) {
+			push(GamePanel.getDeck().pop());
 		}
-		// flip topmost card face up
-		top().flip(); //top() is provided by cardPile class
+
+		if (initSize > 0) {
+			topCard().showFace();
+		}
 	}
 
-	public boolean canTake (Card aCard) {//provide code here
-		if (isEmpty())
-			return aCard.rank() == 12;
-		Card topCard = top();
-		return (aCard.color()!= topCard.color()) &&
-				(aCard.rank() == topCard.rank() -1 );
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.WHITE);
+		g2d.drawLine(0, 0, this.getWidth(), 0);
+		g2d.drawLine(0, 0, 0, 96);
+		g2d.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, 96);
+
+		g2d.setPaint(new GradientPaint(36, 0, new Color(255, 255, 255, 160), 36, 60, new Color(0, 0, 0, 0)));
+		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+		int cardYPos = 0;
+		if (this.isEmpty()) {
+
+		} else {
+			for (Card c : this.cards) {
+				if (c.isFaceUp()) {
+					g.drawImage(c.getCardImage(), 0, cardYPos, 72, 96, this);
+					cardYPos += 20;
+				} else {
+					g.drawImage(Card.getCardBack(), 0, cardYPos, 72, 96, this);
+					cardYPos += 20;
+				}
+			}
+		}
+	}
+
+	public void moveFromDiscard(DiscardCardPile source, Card card) {
+		if (this.accepts(card)) {
+			this.push(source.pop());
+		}
+		source = null;
+	}
+
+	public boolean accepts(Card card) {
+		if (!this.isEmpty()) {
+			return this.topCard().getValue() == card.getValue() + 1
+					&& !this.topCard().getColour().equals(card.getColour());
+		}
+		return card.getValue() == 13;
+	}
+
+	public boolean moveTo(FoundationPile destination, Card card) {
+		if (destination.accepts(card)) {
+			destination.push(this.pop());
+			if (!this.isEmpty()) {
+				this.topCard().showFace();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public void moveTo(TablePile destination, Card card) {
+		if (!this.isEmpty() || card.getValue() == 13) {
+			if (destination.accepts(card)) {
+                 Stack<Card> toBeMovedCards = new Stack<>(); // can use stack data structure
+                 while(!this.isEmpty()) {
+                	 Card tmp = this.pop();
+                	 toBeMovedCards.push(tmp);
+                	 if(tmp.equals(card)) {
+                		 break;
+                	 }
+                 }
+                 while(!toBeMovedCards.isEmpty()) {
+                	 destination.push(toBeMovedCards.pop());
+                 }
+			}
+		}
 		
+		if(!this.isEmpty()) {
+			this.topCard().showFace();
+		}
 	}
 
-	public boolean includes (int tx, int ty) {
-		if (isEmpty())
-			return false;
-		// don't test bottom of card
-		return x <= tx && tx <= x + Card.width && y <= ty;
+	public Card getClickedCard(int y) {
+		int index = y / 20;
+		if (index < this.cards.toArray().length) {
+			Card returnMe = (Card) cards.toArray()[index];
+			if (returnMe.isFaceUp()) {
+				return returnMe;
+			}
+		}
+		return (Card) cards.toArray()[cards.toArray().length - 1];
 	}
 
-	public void select (int tx, int ty) {
-		if (isEmpty())
-			return;
-
-		// if face down, then flip
-		Card topCard = top();
-		if (!topCard.faceUp()) {
-			topCard.flip();
-			return;
-		}
-
-		// else see if any suit pile can take card
-
-		for (int i = 0; i < 4; i++){
-			if (Solitaire.suitPile[i].canTake(topCard)) {
-				Solitaire.suitPile[i].addCard(pop());
-				return;
-			}
-		}
-		/*
-			// else see if any other table pile can take card
-		for (int i = 0; i < 7; i++)
-			if (Solitaire.tableau[i].canTake(topCard)) {
-				Solitaire.tableau[i].addCard(topCard);
-				return;
-				}
-			// else put it back on our pile
-		addCard(topCard);*/
-
-
-		//create temporary sub-pile
-		CardPile tempPile = new CardPile(10,10);
-		//get the card for this sub-pile from the pile
-		while(!isEmpty()){
-			if (!top().faceUp())
-				break;
-			tempPile.addCard(pop());
-		}
-		// if play only one card
-		if(tempPile.top() == topCard){
-
-			//put it back to the table pile
-			addCard(tempPile.pop());
-			//test if any other table piles can take card
-			for (int i = 0; i < 7; i++)
-				if (Solitaire.tableau[i].canTake(topCard)) {
-					Solitaire.tableau[i].addCard(pop());
-					return;
-				}
-
-		} else { //play sub-pile
-			topCard = tempPile.top();
-			// test if any other table pile can take this sub-pile
-			for (int i = 0; i< 7; i++) {
-				if (Solitaire.tableau[i].canTake(topCard)) {
-					while (!tempPile.isEmpty())
-						Solitaire.tableau[i].addCard(tempPile.pop());
-					return;
-				}
-			}
-			//put every card in this sub-pile to the pile
-			while (!tempPile.isEmpty()){
-				addCard(tempPile.pop());
-			}
-		}
-
-	}
-
-	public void display (Graphics g) {
-		int localy = y;
-		for (Enumeration e = thePile.elements(); e.hasMoreElements(); ) {
-			Card aCard = (Card) e.nextElement();
-			aCard.draw (g, x, localy);
-			localy += 35;
-			}
-	}
 }
