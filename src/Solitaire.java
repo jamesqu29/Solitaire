@@ -34,9 +34,6 @@ public class Solitaire extends JFrame{
 
 		new Solitaire().setVisible(true);
 
-		if (gamePanel.isGameWon){
-			//todo
-		}
 	}
 
 }

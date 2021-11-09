@@ -18,7 +18,6 @@ public class GamePanel extends JPanel {
 	private static DiscardCardPile discardPile;
 	private static FoundationPile[] foundationPiles;
 	private static TablePile[] tablePiles;
-	public boolean isGameWon;
 
 	//default constructor
 	public GamePanel() {
@@ -29,6 +28,7 @@ public class GamePanel extends JPanel {
 		addMouseListener(l);
 		addMouseMotionListener(l);
 	}
+
 
 	//initialize the piles
 	private void initializePiles() {

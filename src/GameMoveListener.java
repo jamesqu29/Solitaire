@@ -1,9 +1,10 @@
 /*
 class for listening to mouse click, drag and release for simulating drag and drop gesture
  */
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 //class to manage mouse click, drag and drop
@@ -15,6 +16,10 @@ public class GameMoveListener extends MouseInputAdapter {
 	private FoundationPile selectedFoundationPile = null;
 	private Card selectedCard = null;
 	private boolean isGameWon = false;
+	//private static JEditorPane gameWinningMsg = new JEditorPane("text/html", "");
+	protected static final JPanel table = new JPanel();
+	private static JTextField statusBox = new JTextField();// status messages
+
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -69,6 +74,7 @@ public class GameMoveListener extends MouseInputAdapter {
 		}
 
 		//check if the game is won, if it is, do something
+
 		int count = 0;
 		for (TablePile tp : GamePanel.getTablePiles()){
 			if(tp.isEmpty()){
@@ -78,6 +84,8 @@ public class GameMoveListener extends MouseInputAdapter {
 		if (count == 7) {
 			isGameWon = true;
 			System.out.println(isGameWon);
+			JOptionPane.showMessageDialog(table,"Congratulations! You've Won!");
+			statusBox.setText("Click New Game to Start Over");
 		}
 
 		e.getComponent().repaint(); //every time the mouse is clicked, repaint
