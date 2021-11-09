@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public abstract class CardPile extends JPanel {
 	
-	//protected int x, y;
+	protected int x, y;
 	protected Stack<Card> cards; //using stack data structure provided by java for storing cards
 
 	public CardPile(int x, int y) {

@@ -14,7 +14,7 @@ public class TablePile extends CardPile {
 		super.setSize(72, 450);
 		super.setOpaque(false);
 		for (int i = 0; i < initSize; ++i) {
-			push(GamePanel.getDeck().pop());
+			push(GamePanel.getDeck().pop()); // table pile takes card from the deck pile
 		}
 
 		if (initSize > 0) {

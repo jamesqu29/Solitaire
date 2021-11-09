@@ -14,11 +14,10 @@ public class DeckCardPile extends CardPile {
 		super.setSize(72, 96);
 		for(Card.Suit suit : Card.Suit.values()) {
 			for(int j = 1; j <= 13; ++j) {
-				push(new Card(j, suit));
+				push(new Card(j, suit)); //deal 52 cards
 			}
 		}
-		
-		Collections.shuffle(cards);
+		Collections.shuffle(cards); //shuffle cards using Collection class provided by Java
 	}
 
 	@Override

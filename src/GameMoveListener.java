@@ -8,7 +8,7 @@ import javax.swing.event.MouseInputAdapter;
 
 //class to manage mouse click, drag and drop
 public class GameMoveListener extends MouseInputAdapter {
-	
+
 	private DeckCardPile deckPile = GamePanel.getDeck();
 	private DiscardCardPile discardPile = null;
 	private TablePile selectedTableau = null;
@@ -79,12 +79,8 @@ public class GameMoveListener extends MouseInputAdapter {
 			isGameWon = true;
 			System.out.println(isGameWon);
 		}
-		
-		e.getComponent().repaint(); //every time the mouse is clicked, repaint
-	}
 
-	public boolean isGameWon() {
-		return isGameWon;
+		e.getComponent().repaint(); //every time the mouse is clicked, repaint
 	}
 
 	@Override

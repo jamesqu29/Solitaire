@@ -7,14 +7,12 @@ import javax.swing.ImageIcon;
 
 public class Card {
 
-	public enum Color{ //public access for inherited class to use
+	protected enum Color{ //protected keyword for inherited class to use
 		Red,Black;
 	}
 
-	public enum Suit {
-
+	protected enum Suit {
 		Spades, Hearts, Clubs, Diamonds
-
 	}
 	public static String cardBackFilename = "back001",
 			cardOutlineFilename = "bottom01",
@@ -95,7 +93,6 @@ public class Card {
 	}
 
 
-
 	@Override
 	public String toString() {
 		return value + " of " + suit ;
@@ -115,15 +112,12 @@ public class Card {
 		return image;
 	}
 
-
 	public static Image getCardBack() {
 		ImageIcon ii = new ImageIcon(
 				Card.class.getResource(directory + "/" + cardBackFilename + extension));
 		Image image = ii.getImage();
 		return image;
 	}
-
-
 
 	public int getValue() {
 		return value;
