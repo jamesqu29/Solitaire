@@ -13,11 +13,13 @@ public class GamePanel extends JPanel {
 	protected static int XShift = 80;
 	public static Point DECK_POSITION = new Point(500, 20);
 	public static Point TABLEAU_POSITION = new Point(20, 150);
+	public static Point TIMER_POSITION = new Point(585, 20);
 	private static int TABLEAU_OFFSET = 80;
 	private static DeckCardPile deckPile;
 	private static DiscardCardPile discardPile;
 	private static FoundationPile[] foundationPiles;
 	private static TablePile[] tablePiles;
+	private static GameTimer timer;
 
 	//default constructor
 	public GamePanel() {
@@ -36,6 +38,9 @@ public class GamePanel extends JPanel {
 		add(deckPile);
 		discardPile = new DiscardCardPile(DECK_POSITION.x - XShift, DECK_POSITION.y);
 		add(discardPile);
+		timer = new GameTimer(TIMER_POSITION.x, TIMER_POSITION.y);
+		add(timer);
+		timer.start();
 		foundationPiles = new FoundationPile[4];
 		for(int i = 0; i < foundationPiles.length; ++i) {
 			foundationPiles[i] = new FoundationPile(20 + XShift * i, 20, i + 1);
