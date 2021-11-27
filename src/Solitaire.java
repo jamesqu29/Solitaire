@@ -11,7 +11,8 @@ public class Solitaire extends JFrame{
 	
 	static protected GamePanel gamePanel;
 	public static final int PANEL_WIDTH = 700, PANEL_HEIGHT = 600;
-
+	private static Score score = Score.getInstance();
+	
 	//build GUI components
 	public Solitaire() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,6 +28,7 @@ public class Solitaire extends JFrame{
 		newGameButton.addActionListener(e -> { //Java lambda notation
 			setVisible(false);
 			new Solitaire().setVisible(true);
+			score.resetScore();
 		});
 	}
 

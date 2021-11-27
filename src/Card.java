@@ -23,8 +23,18 @@ public class Card {
 	private String suit;
 	private boolean faceUp;
 	private Card.Color colour;
+	private Boolean hasBeenMoved = false;
 
-	public Card(int value, Card.Suit suit) {
+	public Boolean getHasBeenMoved() {
+        return hasBeenMoved;
+    }
+
+    public void setHasBeenMoved(Boolean hasBeenMoved) {
+        this.hasBeenMoved = hasBeenMoved;
+    }
+
+    
+    public Card(int value, Card.Suit suit) {
 		this.value = value;
 		switch(suit) {
 		case Clubs:

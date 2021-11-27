@@ -16,10 +16,11 @@ public class GameMoveListener extends MouseInputAdapter {
 	private FoundationPile selectedFoundationPile = null;
 	private Card selectedCard = null;
 	private boolean isGameWon = false;
+	private static Score score = Score.getInstance();
 	//private static JEditorPane gameWinningMsg = new JEditorPane("text/html", "");
 	protected static final JPanel table = new JPanel();
 	private static JTextField statusBox = new JTextField();// status messages
-
+	private int shuffle_count = 0;
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -42,7 +43,9 @@ public class GameMoveListener extends MouseInputAdapter {
 						selectedTableau = null;
 						break;
 					}
+					
 				}
+			
 			}catch (IndexOutOfBoundsException error){
 				System.out.println(error);
 			}
@@ -59,6 +62,12 @@ public class GameMoveListener extends MouseInputAdapter {
 				while (!discardPile.isEmpty()){
 					deckPile.push(discardPile.pop());
 				}
+				shuffle_count++;
+				System.out.println("Shuffle Count: "+shuffle_count);
+				if(shuffle_count > 4) {
+				    System.out.println("Deducted points for shuffling more than 4 times");
+				    score.removePoints(20);
+				}
 			}
 
 		}else if(pressedComponent instanceof DiscardCardPile) { //if selected discard pile
@@ -69,7 +78,9 @@ public class GameMoveListener extends MouseInputAdapter {
 			if(selectedCard != null) { //check to see if foundation pile can take cards from the discard pile
 				for(FoundationPile foundationPile : GamePanel.getFoundationPiles()) {
 					foundationPile.moveFromWaste(discardPile, selectedCard);
+					
 				}
+			
 			}
 		}
 
@@ -84,7 +95,7 @@ public class GameMoveListener extends MouseInputAdapter {
 		if (count == 7) {
 			isGameWon = true;
 			System.out.println(isGameWon);
-			JOptionPane.showMessageDialog(table,"Congratulations! You've Won!");
+			JOptionPane.showMessageDialog(table,"Congratulations! You've Won!"+"\n"+"Your Score: "+score.getScore());
 			statusBox.setText("Click New Game to Start Over");
 		}
 
@@ -101,19 +112,33 @@ public class GameMoveListener extends MouseInputAdapter {
 					if(!discardPile.isEmpty()) {
 						destination.moveFromDiscard(discardPile, selectedCard);
 					}
+					System.out.println("Moved from discard to a row stack 5 points");
+					score.addPoints(5);
 					discardPile.repaint();
 
 				}else if(selectedTableau != null) {
 					TablePile source = selectedTableau;
 					TablePile destination = (TablePile) releasedComponent;
+					
+					//Prevents points from being accrued if the card has already been moved within the tableau pile
 					source.moveTo(destination, selectedCard);
+					if(source != destination) {
+					    if(selectedCard.getHasBeenMoved() == false) { 
+					        System.out.println("Moved from one row stack to another 3 points"); 
+					        score.addPoints(3);
+					        selectedCard.setHasBeenMoved(true);
+					        }}
+					
 					source.repaint();
+					
 				}else if(selectedFoundationPile != null) {
 					FoundationPile source = selectedFoundationPile;
 					TablePile destination = (TablePile) releasedComponent;
 					source.moveTo(destination, selectedCard);
 					source.repaint();
 					destination.repaint();
+					System.out.println("Moved from foundation to tableau -15 points");
+					score.removePoints(15);
 				}
 			}
 		}

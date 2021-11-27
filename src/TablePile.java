@@ -9,7 +9,10 @@ import java.util.Stack;
 
 public class TablePile extends CardPile {
 
-	public TablePile(int x, int y, int initSize) {
+    private static Score score = Score.getInstance();
+  
+
+    public TablePile(int x, int y, int initSize) {
 		super(x, y);
 		super.setSize(72, 450);
 		super.setOpaque(false);
@@ -19,6 +22,7 @@ public class TablePile extends CardPile {
 
 		if (initSize > 0) {
 			topCard().showFace();
+			
 		}
 	}
 
@@ -68,9 +72,19 @@ public class TablePile extends CardPile {
 	public boolean moveTo(FoundationPile destination, Card card) {
 		if (destination.accepts(card)) {
 			destination.push(this.pop());
+			score.addPoints(10);
 			if (!this.isEmpty()) {
+			    //the logic below prevents points being awarded for revealing a card that is already face up
+			    if(this.topCard().isFaceUp() == false) {
+	                System.out.println("FLIPPED A CARD ON TABLEAU(sent to foundation)");
+	                score.addPoints(5);
+
+	            }
+			    
 				this.topCard().showFace();
+
 			}
+			
 			return true;
 		}
 		return false;
@@ -89,12 +103,20 @@ public class TablePile extends CardPile {
                  }
                  while(!toBeMovedCards.isEmpty()) {
                 	 destination.push(toBeMovedCards.pop());
+                	 
                  }
+               
 			}
 		}
 		
 		if(!this.isEmpty()) {
+		    
+		    if(this.topCard().isFaceUp() == false) {
+		        System.out.println("FLIPPED A CARD ON TABLEAU");
+		        score.addPoints(5);
+		    }
 			this.topCard().showFace();
+		
 		}
 	}
 

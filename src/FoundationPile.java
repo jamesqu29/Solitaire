@@ -6,7 +6,8 @@ import java.awt.Graphics;
 public class FoundationPile extends CardPile {
 	
 	private int suit;
-
+	private static Score score = Score.getInstance();
+	
 	public FoundationPile(int x, int y, int i) { //Foundation pile is suitPile in our first iteration, takes in position and suit number
 		super(x, y);
 		super.setSize(72, 96);
@@ -28,6 +29,8 @@ public class FoundationPile extends CardPile {
 	public void moveFromWaste(DiscardCardPile source, Card card) { //move logic
 		if(accepts(card)) {
 			this.push(source.pop());
+			System.out.println("Moved from discard to foundation");
+			score.addPoints(10);
 			source = null;
 		}
 	}
