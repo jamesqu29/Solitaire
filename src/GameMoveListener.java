@@ -108,12 +108,27 @@ public class GameMoveListener extends MouseInputAdapter {
 			Component releasedComponent = e.getComponent().getComponentAt(e.getPoint());
 			if(releasedComponent instanceof TablePile) { //if mouse is released on the table pile
 				if(discardPile != null) { //if
+				    
+
 					TablePile destination = (TablePile) releasedComponent;
+					
 					if(!discardPile.isEmpty()) {
-						destination.moveFromDiscard(discardPile, selectedCard);
+						
+					    //Only gives points if the card actually moved
+                        if(destination.accepts(selectedCard)) {
+                            System.out.println("Moved from discard to a row stack 5 points");
+                            selectedCard.setHasBeenMoved(true);
+                            score.addPoints(5);
+                          }
+					    
+					    destination.moveFromDiscard(discardPile, selectedCard);
+					  
+						
 					}
-					System.out.println("Moved from discard to a row stack 5 points");
-					score.addPoints(5);
+					
+					
+					
+					
 					discardPile.repaint();
 
 				}else if(selectedTableau != null) {
