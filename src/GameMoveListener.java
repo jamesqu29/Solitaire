@@ -21,7 +21,16 @@ public class GameMoveListener extends MouseInputAdapter {
 	protected static final JPanel table = new JPanel();
 	private static JTextField statusBox = new JTextField();// status messages
 	private int shuffle_count = 0;
+	private GamePanel panel;
+	private DragPanel dragPanel;
 
+	
+	public void setGamePanel(GamePanel panel) {
+	    
+	    this.panel = panel;
+	    
+	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Component pressedComponent = e.getComponent().getComponentAt(e.getPoint());
@@ -62,6 +71,8 @@ public class GameMoveListener extends MouseInputAdapter {
 				while (!discardPile.isEmpty()){
 					deckPile.push(discardPile.pop());
 				}
+				
+				//Counts every time the deck pile gets shuffled. Every shuffle after the 4th will cost the player 20 points.
 				shuffle_count++;
 				System.out.println("Shuffle Count: "+shuffle_count);
 				if(shuffle_count > 4) {
@@ -76,10 +87,19 @@ public class GameMoveListener extends MouseInputAdapter {
 			discardPile = GamePanel.getDiscardPile();
 			selectedCard = discardPile.topCard();
 			if(selectedCard != null) { //check to see if foundation pile can take cards from the discard pile
+			    
+			   
+			    
+			    
 				for(FoundationPile foundationPile : GamePanel.getFoundationPiles()) {
 					foundationPile.moveFromWaste(discardPile, selectedCard);
 					
 				}
+				 /////////////////////////////////////////////////////////////////
+		        System.out.println(selectedCard);
+		        panel = GamePanel.getInstance();
+		        dragPanel = new DragPanel(selectedCard.getCardImage());
+		        panel.setDragPanel(dragPanel);
 			
 			}
 		}
@@ -99,12 +119,14 @@ public class GameMoveListener extends MouseInputAdapter {
 			statusBox.setText("Click New Game to Start Over");
 		}
 
+		
 		e.getComponent().repaint(); //every time the mouse is clicked, repaint
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(selectedCard != null) {
+		    
 			Component releasedComponent = e.getComponent().getComponentAt(e.getPoint());
 			if(releasedComponent instanceof TablePile) { //if mouse is released on the table pile
 				if(discardPile != null) { //if
@@ -125,9 +147,6 @@ public class GameMoveListener extends MouseInputAdapter {
 					  
 						
 					}
-					
-					
-					
 					
 					discardPile.repaint();
 

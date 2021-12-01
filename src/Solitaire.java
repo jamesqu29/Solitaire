@@ -19,7 +19,7 @@ public class Solitaire extends JFrame{
 		setLayout(new BorderLayout());
 		JButton newGameButton = new JButton("New Game");
 		add(newGameButton,BorderLayout.SOUTH);
-		gamePanel = new GamePanel();
+		gamePanel = GamePanel.getInstance();
 		gamePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		add(gamePanel);
 		pack();//nothing will display without this method

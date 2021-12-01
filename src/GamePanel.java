@@ -23,9 +23,24 @@ public class GamePanel extends JPanel {
 	private static TablePile[] tablePiles;
 	private static GameTimer timer;
 	private static Score score;
-
+	private DragPanel dragPanel;
+	
+	private static GamePanel game_instance = null;
+	
+	public static GamePanel getInstance() {
+	    
+	    if (game_instance == null) {
+	        game_instance = new GamePanel();
+            
+        }
+        
+        return game_instance;
+	    
+	}
+	
+	
 	//default constructor
-	public GamePanel() {
+	private GamePanel() {
 		super.setLayout(null);
 		initializePiles();
 		
@@ -47,7 +62,7 @@ public class GamePanel extends JPanel {
 		score = Score.getInstance();
 		score.setBounds(SCORE_POSITION.x, SCORE_POSITION.y);
 		add(score);
-		foundationPiles = new FoundationPile[4];
+				foundationPiles = new FoundationPile[4];
 		for(int i = 0; i < foundationPiles.length; ++i) {
 			foundationPiles[i] = new FoundationPile(20 + XShift * i, 20, i + 1);
 			add(foundationPiles[i]);
@@ -59,6 +74,17 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	
+	
+	public void setDragPanel(DragPanel dragPanel) {
+	    
+	    this.dragPanel = dragPanel;
+	    add(dragPanel);
+	    this.repaint();
+	    
+	}
+	
+	
 	public static FoundationPile[] getFoundationPiles() {
 		return foundationPiles;
 	}
@@ -71,6 +97,7 @@ public class GamePanel extends JPanel {
 		return deckPile;
 	}
 
+	
 	public static TablePile[] getTablePiles() {return tablePiles;}
 
 
