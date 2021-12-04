@@ -46,7 +46,7 @@ public class GameTimer extends JLabel implements ActionListener {
     
     public GameTimer(int x, int y) {
         
-       
+        
         super.setText(hours_string+":"+minutes_string+":"+seconds_string);
         super.setBounds(x, y, 100, 50);
         super.setFont(new Font("Verdana", Font.PLAIN, 15));

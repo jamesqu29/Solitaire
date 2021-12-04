@@ -15,6 +15,7 @@ public class Solitaire extends JFrame{
 	
 	//build GUI components
 	public Solitaire() {
+	    setTitle("Solitaire");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JButton newGameButton = new JButton("New Game");

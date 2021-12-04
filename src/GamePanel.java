@@ -2,10 +2,12 @@
 JPanel putting everything together, initializing the game
  */
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class GamePanel extends JPanel {
 
@@ -13,8 +15,8 @@ public class GamePanel extends JPanel {
 	protected static int XShift = 80;
 	public static Point DECK_POSITION = new Point(500, 20);
 	public static Point TABLEAU_POSITION = new Point(20, 150);
-	public static Point TIMER_POSITION = new Point(585, 20);
-	public static Point SCORE_POSITION = new Point(585, 100);
+	public static Point TIMER_POSITION = new Point(585, 40);
+	public static Point SCORE_POSITION = new Point(585, 140);
 	private static int TABLEAU_OFFSET = 80;
 
 	private static DeckCardPile deckPile;
@@ -23,17 +25,55 @@ public class GamePanel extends JPanel {
 	private static TablePile[] tablePiles;
 	private static GameTimer timer;
 	private static Score score;
-
+	private static JLabel timerTitle = new JLabel();
+	private static JLabel scoreTitle = new JLabel();
+	
 	//default constructor
 	public GamePanel() {
 		super.setLayout(null);
+		setUIElements();
 		initializePiles();
-		
 		GameMoveListener l = new GameMoveListener();
 		addMouseListener(l);
 		addMouseMotionListener(l);
 	}
 
+	
+	private void setUIElements() {
+	    
+	    Color backgroundColor = new Color(0, 130, 10);
+	    Border border = BorderFactory.createLineBorder(Color.DARK_GRAY, 1);
+	    
+	    timer = new GameTimer(TIMER_POSITION.x, TIMER_POSITION.y);
+        add(timer);
+        timer.start();
+        
+        score = Score.getInstance();
+        score.setBounds(SCORE_POSITION.x, SCORE_POSITION.y);
+        add(score);
+        
+        
+        timerTitle.setBounds(585, 15, 100, 20);
+        timerTitle.setText("Time");
+        timerTitle.setFont(new Font("Verdana", Font.PLAIN, 15));
+        timerTitle.setOpaque(true);
+        timerTitle.setHorizontalAlignment(JTextField.CENTER);
+        timerTitle.setBackground(backgroundColor);
+        timerTitle.setBorder(border);
+	    add(timerTitle);
+	    
+	    scoreTitle.setBounds(585, 115, 100, 20);
+	    scoreTitle.setText("Score");
+	    scoreTitle.setFont(new Font("Verdana", Font.PLAIN, 15));
+	    scoreTitle.setOpaque(true);
+	    scoreTitle.setHorizontalAlignment(JTextField.CENTER);
+	    scoreTitle.setBackground(backgroundColor);
+	    scoreTitle.setBorder(border);
+        add(scoreTitle);
+	    
+	}
+	
+	
 
 	//initialize the piles
 	private void initializePiles() {
@@ -41,12 +81,7 @@ public class GamePanel extends JPanel {
 		add(deckPile);
 		discardPile = new DiscardCardPile(DECK_POSITION.x - XShift, DECK_POSITION.y);
 		add(discardPile);
-		timer = new GameTimer(TIMER_POSITION.x, TIMER_POSITION.y);
-		add(timer);
-		timer.start();
-		score = Score.getInstance();
-		score.setBounds(SCORE_POSITION.x, SCORE_POSITION.y);
-		add(score);
+		
 		foundationPiles = new FoundationPile[4];
 		for(int i = 0; i < foundationPiles.length; ++i) {
 			foundationPiles[i] = new FoundationPile(20 + XShift * i, 20, i + 1);
