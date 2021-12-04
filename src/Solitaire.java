@@ -19,10 +19,20 @@ public class Solitaire extends JFrame{
 		setLayout(new BorderLayout());
 		JButton newGameButton = new JButton("New Game");
 		add(newGameButton,BorderLayout.SOUTH);
+		newGameButton.setFocusable(false);
+		JButton howToButton =  new JButton("How To Play");
+		howToButton.setFocusable(false);
+		add(howToButton,BorderLayout.NORTH);
 		gamePanel = new GamePanel();
 		gamePanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		add(gamePanel);
 		pack();//nothing will display without this method
+		
+		//listener for how to play button
+		howToButton.addActionListener(e -> {
+			new HowToWindow();
+		});
+
 
 		//listener for new game button
 		newGameButton.addActionListener(e -> { //Java lambda notation
