@@ -12,6 +12,7 @@ public class Solitaire extends JFrame{
 	static protected GamePanel gamePanel;
 	public static final int PANEL_WIDTH = 700, PANEL_HEIGHT = 600;
 	private static Score score = Score.getInstance();
+	private static MoveCounter moves = MoveCounter.getInstance();
 	
 	//build GUI components
 	public Solitaire() {
@@ -40,6 +41,7 @@ public class Solitaire extends JFrame{
 			setVisible(false);
 			new Solitaire().setVisible(true);
 			score.resetScore();
+			moves.resetMoves();
 		});
 	}
 
