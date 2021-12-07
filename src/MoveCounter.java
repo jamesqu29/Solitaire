@@ -48,16 +48,20 @@ public class MoveCounter extends JLabel {
         
         moves += 1;
         setMoves(moves);
-        updatemoves(moves);
+        updateMoves(moves);
         
     }
     
   
     
-    public void updatemoves(int moves) {
+    public void updateMoves(int moves) {
         
         super.setText(String.valueOf(moves));
         
+    }
+    public void resetMoves(){
+        moves = 0;
+        updateMoves(moves);
     }
     
     public void setBounds(int x, int y) {
