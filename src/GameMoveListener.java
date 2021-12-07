@@ -17,6 +17,8 @@ public class GameMoveListener extends MouseInputAdapter {
 	private Card selectedCard = null;
 	private boolean isGameWon = false;
 	private static Score score = Score.getInstance();
+	private static MoveCounter moveCounter = MoveCounter.getInstance();
+	
 	//private static JEditorPane gameWinningMsg = new JEditorPane("text/html", "");
 	protected static final JPanel table = new JPanel();
 	private static JTextField statusBox = new JTextField();// status messages
@@ -31,6 +33,7 @@ public class GameMoveListener extends MouseInputAdapter {
 			selectedTableau = null;
 			discardPile = null;
 			selectedCard = selectedFoundationPile.topCard();
+			
 
 		}else if(pressedComponent instanceof TablePile) { //if selected tableau
 			selectedTableau = (TablePile) pressedComponent;
@@ -57,8 +60,10 @@ public class GameMoveListener extends MouseInputAdapter {
 				DiscardCardPile discardPile = GamePanel.getDiscardPile();
 				discardPile.push(deckPile.pop());
 				discardPile.topCard().showFace();
+				moveCounter.addMove();
 			}else if(deckPile.isEmpty()){ //otherwise, put the discard pile back to deck pile in the same order it was discarded
 				DiscardCardPile discardPile = GamePanel.getDiscardPile();
+				moveCounter.addMove();
 				while (!discardPile.isEmpty()){
 					deckPile.push(discardPile.pop());
 				}
@@ -119,6 +124,7 @@ public class GameMoveListener extends MouseInputAdapter {
                             System.out.println("Moved from discard to a row stack 5 points");
                             selectedCard.setHasBeenMoved(true);
                             score.addPoints(5);
+                            moveCounter.addMove();
                           }
 					    
 					    destination.moveFromDiscard(discardPile, selectedCard);
@@ -141,6 +147,7 @@ public class GameMoveListener extends MouseInputAdapter {
 					    if(selectedCard.getHasBeenMoved() == false) { 
 					        System.out.println("Moved from one row stack to another 3 points"); 
 					        score.addPoints(3);
+					        moveCounter.addMove();
 					        selectedCard.setHasBeenMoved(true);
 					        }}
 					

@@ -10,7 +10,7 @@ import java.util.Stack;
 public class TablePile extends CardPile {
 
     private static Score score = Score.getInstance();
-  
+    private static MoveCounter moveCounter = MoveCounter.getInstance();
 
     public TablePile(int x, int y, int initSize) {
 		super(x, y);
@@ -78,6 +78,7 @@ public class TablePile extends CardPile {
 			    if(this.topCard().isFaceUp() == false) {
 	                System.out.println("FLIPPED A CARD ON TABLEAU(sent to foundation)");
 	                score.addPoints(5);
+	                moveCounter.addMove();
 
 	            }
 			    

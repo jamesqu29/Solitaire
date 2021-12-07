@@ -17,6 +17,7 @@ public class GamePanel extends JPanel {
 	public static Point TABLEAU_POSITION = new Point(20, 150);
 	public static Point TIMER_POSITION = new Point(585, 40);
 	public static Point SCORE_POSITION = new Point(585, 140);
+	public static Point MOVES_POSITION = new Point(585, 240);
 	private static int TABLEAU_OFFSET = 80;
 
 	private static DeckCardPile deckPile;
@@ -25,8 +26,11 @@ public class GamePanel extends JPanel {
 	private static TablePile[] tablePiles;
 	private static GameTimer timer;
 	private static Score score;
+	private static MoveCounter moveCounter;
 	private static JLabel timerTitle = new JLabel();
 	private static JLabel scoreTitle = new JLabel();
+	private static JLabel moveCounterTitle = new JLabel();
+	
 	
 	//default constructor
 	public GamePanel() {
@@ -52,6 +56,10 @@ public class GamePanel extends JPanel {
         score.setBounds(SCORE_POSITION.x, SCORE_POSITION.y);
         add(score);
         
+        moveCounter = MoveCounter.getInstance();
+        moveCounter.setBounds(MOVES_POSITION.x, MOVES_POSITION.y);
+        add(moveCounter);
+        
         
         timerTitle.setBounds(585, 15, 100, 20);
         timerTitle.setText("Time");
@@ -70,6 +78,19 @@ public class GamePanel extends JPanel {
 	    scoreTitle.setBackground(backgroundColor);
 	    scoreTitle.setBorder(border);
         add(scoreTitle);
+        
+        
+        moveCounterTitle.setBounds(585, 215, 100, 20);
+        moveCounterTitle.setText("Moves");
+        moveCounterTitle.setFont(new Font("Verdana", Font.PLAIN, 15));
+        moveCounterTitle.setOpaque(true);
+        moveCounterTitle.setHorizontalAlignment(JTextField.CENTER);
+        moveCounterTitle.setBackground(backgroundColor);
+        moveCounterTitle.setBorder(border);
+        add(moveCounterTitle);
+        
+        
+        
 	    
 	}
 	

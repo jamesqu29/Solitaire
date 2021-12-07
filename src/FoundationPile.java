@@ -7,6 +7,7 @@ public class FoundationPile extends CardPile {
 	
 	private int suit;
 	private static Score score = Score.getInstance();
+	private static MoveCounter moveCounter = MoveCounter.getInstance();
 	
 	public FoundationPile(int x, int y, int i) { //Foundation pile is suitPile in our first iteration, takes in position and suit number
 		super(x, y);
@@ -31,6 +32,7 @@ public class FoundationPile extends CardPile {
 			this.push(source.pop());
 			System.out.println("Moved from discard to foundation");
 			score.addPoints(10);
+			moveCounter.addMove();
 			source = null;
 		}
 	}
