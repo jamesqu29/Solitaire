@@ -13,7 +13,7 @@ public class Solitaire extends JFrame{
 	public static final int PANEL_WIDTH = 700, PANEL_HEIGHT = 600;
 	private static Score score = Score.getInstance();
 	private static Solitaire solitaire_instance = null;
-	
+	MoveCounter moves = MoveCounter.getInstance();
 	
 
     public static void setSolitaire_instance(Solitaire solitaire_instance) {
@@ -56,6 +56,7 @@ public class Solitaire extends JFrame{
 			getInstance();
 			score.setVegas_rules(false);
 			score.resetScore();
+			moves.resetMoves();
 		});
 	}
 	
@@ -75,13 +76,15 @@ public class Solitaire extends JFrame{
 	  
 	  public void newGame(boolean vegas_rules) {
 	      
-
+	      
+	      
 	      setVisible(false);
 	      setSolitaire_instance(null);
 	      getInstance();
           score.setVegas_rules(true);
           score.resetScore();
           score.setScore(-52);
+          moves.resetMoves();
 	      
 	      
 	  }

@@ -20,12 +20,7 @@ public class Score extends JLabel {
         super.setHorizontalAlignment(JTextField.CENTER);
         
         
-        if(vegas_rules){
-            
-            setScore(-52);
-            
-        }
-        
+   
         
     }
     
