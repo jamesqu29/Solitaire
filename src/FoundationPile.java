@@ -28,10 +28,17 @@ public class FoundationPile extends CardPile {
 	}
 
 	public void moveFromWaste(DiscardCardPile source, Card card) { //move logic
+	    boolean vegas_rules = score.isVegas_rules();
 		if(accepts(card)) {
 			this.push(source.pop());
 			System.out.println("Moved from discard to foundation");
-			score.addPoints(10);
+			
+			if(vegas_rules) {
+			    score.addPoints(5);
+			}
+			else {
+			    score.addPoints(10);
+			}
 			moveCounter.addMove();
 			source = null;
 		}

@@ -5,7 +5,10 @@ public class Score extends JLabel {
 
     private int score = 0;
     private static Score score_instance = null;
+    private boolean vegas_rules = false;
     
+  
+
     private Score() {
         
 
@@ -17,6 +20,12 @@ public class Score extends JLabel {
         super.setHorizontalAlignment(JTextField.CENTER);
         
         
+        if(vegas_rules){
+            
+            setScore(-52);
+            
+        }
+        
         
     }
     
@@ -26,6 +35,7 @@ public class Score extends JLabel {
 
     public void setScore(int score) {
         this.score = score;
+        updateScore(score);
     }
     
     public void resetScore() {
@@ -75,5 +85,13 @@ public class Score extends JLabel {
         
     }
     
+    public boolean isVegas_rules() {
+        return vegas_rules;
+    }
+
+    public void setVegas_rules(boolean vegas_rules) {
+        this.vegas_rules = vegas_rules;
+        System.out.println("Vegas Rules Enabled");
+    }
     
 }

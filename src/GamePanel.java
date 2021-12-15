@@ -4,6 +4,7 @@ JPanel putting everything together, initializing the game
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.Point;
 
 import javax.swing.*;
@@ -30,6 +31,9 @@ public class GamePanel extends JPanel {
 	private static JLabel timerTitle = new JLabel();
 	private static JLabel scoreTitle = new JLabel();
 	private static JLabel moveCounterTitle = new JLabel();
+	
+	
+
 	
 	
 	//default constructor
@@ -90,10 +94,22 @@ public class GamePanel extends JPanel {
         add(moveCounterTitle);
         
         
+        JButton vegasRulesButton = new JButton("Vegas Rules");
+        vegasRulesButton.setMargin(new Insets(0, 0, 0, 0));
+        vegasRulesButton.setSize(100, 20);
+        vegasRulesButton.setLocation(585, 340);
+        vegasRulesButton.setFocusable(false);
+        add(vegasRulesButton);
         
+        
+        vegasRulesButton.addActionListener(e ->{
+           Solitaire solitaire = Solitaire.getInstance();
+           solitaire.setVisible(false);
+           solitaire.newGame(true);
+           
+        });
 	    
 	}
-	
 	
 
 	//initialize the piles
@@ -129,6 +145,7 @@ public class GamePanel extends JPanel {
 
 	public static TablePile[] getTablePiles() {return tablePiles;}
 
+	
 
 	@Override
 	protected void paintComponent(Graphics g) {

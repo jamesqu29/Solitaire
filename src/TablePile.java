@@ -11,7 +11,7 @@ public class TablePile extends CardPile {
 
     private static Score score = Score.getInstance();
     private static MoveCounter moveCounter = MoveCounter.getInstance();
-
+    
     public TablePile(int x, int y, int initSize) {
 		super(x, y);
 		super.setSize(72, 450);
@@ -70,12 +70,23 @@ public class TablePile extends CardPile {
 	}
 
 	public boolean moveTo(FoundationPile destination, Card card) {
+	    boolean vegas_rules = score.isVegas_rules();
 		if (destination.accepts(card)) {
 			destination.push(this.pop());
-			score.addPoints(10);
+			
+			if(vegas_rules) {
+			    score.addPoints(5);
+			    
+			}
+			else {
+			    score.addPoints(10);
+			    
+			}
+			
 			if (!this.isEmpty()) {
 			    //the logic below prevents points being awarded for revealing a card that is already face up
 			    if(this.topCard().isFaceUp() == false) {
+			        //same score as vegas rules
 	                System.out.println("FLIPPED A CARD ON TABLEAU(sent to foundation)");
 	                score.addPoints(5);
 	                moveCounter.addMove();
@@ -92,6 +103,7 @@ public class TablePile extends CardPile {
 	}
 
 	public void moveTo(TablePile destination, Card card) {
+	    boolean vegas_rules = score.isVegas_rules();
 		if (!this.isEmpty() || card.getValue() == 13) {
 			if (destination.accepts(card)) {
                  Stack<Card> toBeMovedCards = new Stack<>(); // can use stack data structure
@@ -114,6 +126,7 @@ public class TablePile extends CardPile {
 		    
 		    if(this.topCard().isFaceUp() == false) {
 		        System.out.println("FLIPPED A CARD ON TABLEAU");
+		        //same score as vegas rules
 		        score.addPoints(5);
 		    }
 			this.topCard().showFace();

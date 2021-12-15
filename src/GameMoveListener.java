@@ -17,6 +17,7 @@ public class GameMoveListener extends MouseInputAdapter {
 	private Card selectedCard = null;
 	private boolean isGameWon = false;
 	private static Score score = Score.getInstance();
+	private static Boolean vegas_rules = score.isVegas_rules();
 	private static MoveCounter moveCounter = MoveCounter.getInstance();
 	
 	//private static JEditorPane gameWinningMsg = new JEditorPane("text/html", "");
@@ -26,6 +27,9 @@ public class GameMoveListener extends MouseInputAdapter {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+	    if(isGameWon) {return;}
+	    Boolean vegas_rules = score.isVegas_rules();
+	    System.out.println(vegas_rules);
 		Component pressedComponent = e.getComponent().getComponentAt(e.getPoint());
 		if(pressedComponent instanceof FoundationPile) { //if clicked on foundation pile
 			selectedFoundationPile = (FoundationPile) pressedComponent;
@@ -67,6 +71,15 @@ public class GameMoveListener extends MouseInputAdapter {
 				while (!discardPile.isEmpty()){
 					deckPile.push(discardPile.pop());
 				}
+				
+				if(vegas_rules) {
+				    System.out.println("Game supposed to be over here(vegas rules)");
+				    isGameWon = true;
+				    JOptionPane.showMessageDialog(table,"Game Over!"+"\n"+"Your Score: "+score.getScore());
+		            statusBox.setText("Click New Game to Start Over");
+		            
+				}
+				
 				shuffle_count++;
 				System.out.println("Shuffle Count: "+shuffle_count);
 				if(shuffle_count > 4) {
@@ -102,6 +115,7 @@ public class GameMoveListener extends MouseInputAdapter {
 			System.out.println(isGameWon);
 			JOptionPane.showMessageDialog(table,"Congratulations! You've Won!"+"\n"+"Your Score: "+score.getScore());
 			statusBox.setText("Click New Game to Start Over");
+			
 		}
 
 		e.getComponent().repaint(); //every time the mouse is clicked, repaint
@@ -109,6 +123,8 @@ public class GameMoveListener extends MouseInputAdapter {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+	    if(isGameWon) {return;}
+	    Boolean vegas_rules = score.isVegas_rules();
 		if(selectedCard != null) {
 			Component releasedComponent = e.getComponent().getComponentAt(e.getPoint());
 			if(releasedComponent instanceof TablePile) { //if mouse is released on the table pile
@@ -123,6 +139,7 @@ public class GameMoveListener extends MouseInputAdapter {
                         if(destination.accepts(selectedCard)) {
                             System.out.println("Moved from discard to a row stack 5 points");
                             selectedCard.setHasBeenMoved(true);
+                            //same score for vegas rules in this case
                             score.addPoints(5);
                             moveCounter.addMove();
                           }
@@ -146,7 +163,11 @@ public class GameMoveListener extends MouseInputAdapter {
 					if(source != destination) {
 					    if(selectedCard.getHasBeenMoved() == false) { 
 					        System.out.println("Moved from one row stack to another 3 points"); 
-					        score.addPoints(3);
+					        
+					            if(!vegas_rules) {
+					            score.addPoints(3);
+					            }
+					            
 					        moveCounter.addMove();
 					        selectedCard.setHasBeenMoved(true);
 					        }}
@@ -159,6 +180,7 @@ public class GameMoveListener extends MouseInputAdapter {
 					source.moveTo(destination, selectedCard);
 					source.repaint();
 					destination.repaint();
+					//same score for vegas rules
 					System.out.println("Moved from foundation to tableau -15 points");
 					score.removePoints(15);
 				}
