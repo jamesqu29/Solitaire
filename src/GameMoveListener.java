@@ -19,8 +19,17 @@ public class GameMoveListener extends MouseInputAdapter {
 	private static Score score = Score.getInstance();
 	private static Boolean vegas_rules = score.isVegas_rules();
 	private static MoveCounter moveCounter = MoveCounter.getInstance();
+	private boolean hasMovedToFoundation = false;
 	
-	//private static JEditorPane gameWinningMsg = new JEditorPane("text/html", "");
+	public boolean isHasMovedToFoundation() {
+        return hasMovedToFoundation;
+    }
+
+    public void setHasMovedToFoundation(boolean hasMovedToFoundation) {
+        this.hasMovedToFoundation = hasMovedToFoundation;
+    }
+
+    //private static JEditorPane gameWinningMsg = new JEditorPane("text/html", "");
 	protected static final JPanel table = new JPanel();
 	private static JTextField statusBox = new JTextField();// status messages
 	private int shuffle_count = 0;
@@ -29,7 +38,10 @@ public class GameMoveListener extends MouseInputAdapter {
 	public void mousePressed(MouseEvent e) {
 	    if(isGameWon) {return;}
 	    Boolean vegas_rules = score.isVegas_rules();
-	    System.out.println(vegas_rules);
+	    
+	    setHasMovedToFoundation(false);
+	    
+	   
 		Component pressedComponent = e.getComponent().getComponentAt(e.getPoint());
 		if(pressedComponent instanceof FoundationPile) { //if clicked on foundation pile
 			selectedFoundationPile = (FoundationPile) pressedComponent;
@@ -75,7 +87,7 @@ public class GameMoveListener extends MouseInputAdapter {
 				if(vegas_rules) {
 				    System.out.println("Game supposed to be over here(vegas rules)");
 				    isGameWon = true;
-				    JOptionPane.showMessageDialog(table,"Game Over!"+"\n"+"Your Score: "+score.getScore());
+				    JOptionPane.showMessageDialog(table,"Game Over!"+"\n"+"Your Score: "+score.getScore()+ "\nPress New Game/Vegas Rule to start over");
 		            statusBox.setText("Click New Game to Start Over");
 		            
 				}
@@ -94,10 +106,19 @@ public class GameMoveListener extends MouseInputAdapter {
 			discardPile = GamePanel.getDiscardPile();
 			selectedCard = discardPile.topCard();
 			if(selectedCard != null) { //check to see if foundation pile can take cards from the discard pile
+			    
+			  
+			    
 				for(FoundationPile foundationPile : GamePanel.getFoundationPiles()) {
-					foundationPile.moveFromWaste(discardPile, selectedCard);
+				    
+					if(foundationPile.moveFromWaste(discardPile, selectedCard)) {
+					    setHasMovedToFoundation(true);
+					}
 					
+					
+					 
 				}
+			
 			
 			}
 		}
@@ -123,6 +144,8 @@ public class GameMoveListener extends MouseInputAdapter {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+	    
+	    if(isHasMovedToFoundation()) {return;}
 	    if(isGameWon) {return;}
 	    Boolean vegas_rules = score.isVegas_rules();
 		if(selectedCard != null) {

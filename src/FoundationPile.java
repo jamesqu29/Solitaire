@@ -27,7 +27,7 @@ public class FoundationPile extends CardPile {
 		}
 	}
 
-	public void moveFromWaste(DiscardCardPile source, Card card) { //move logic
+	public boolean moveFromWaste(DiscardCardPile source, Card card) { //move logic
 	    boolean vegas_rules = score.isVegas_rules();
 		if(accepts(card)) {
 			this.push(source.pop());
@@ -41,7 +41,10 @@ public class FoundationPile extends CardPile {
 			}
 			moveCounter.addMove();
 			source = null;
+			
+			return true;
 		}
+		return false;
 	}
 	
 	public void moveTo(TablePile destination, Card card) { //move logic
