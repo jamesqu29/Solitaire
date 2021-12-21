@@ -38,7 +38,7 @@ public class GameMoveListener extends MouseInputAdapter {
 	public void mousePressed(MouseEvent e) {
 	    if(isGameWon) {return;}
 	    Boolean vegas_rules = score.isVegas_rules();
-	    
+	    //resets this bool to allow the user to drag and drop a card i able to
 	    setHasMovedToFoundation(false);
 	    
 	   
@@ -85,7 +85,7 @@ public class GameMoveListener extends MouseInputAdapter {
 				}
 				
 				if(vegas_rules) {
-				    System.out.println("Game supposed to be over here(vegas rules)");
+				    //Game will end here for Vegas Rules since we have opted to go with the Draw 1 game mode.
 				    isGameWon = true;
 				    JOptionPane.showMessageDialog(table,"Game Over!"+"\n"+"Your Score: "+score.getScore()+ "\nPress New Game/Vegas Rule to start over");
 		            statusBox.setText("Click New Game to Start Over");
@@ -112,6 +112,7 @@ public class GameMoveListener extends MouseInputAdapter {
 				for(FoundationPile foundationPile : GamePanel.getFoundationPiles()) {
 				    
 					if(foundationPile.moveFromWaste(discardPile, selectedCard)) {
+					    //if the the card has been moved to foundation. This bool will prevent the card underneath it from being accidentally dragged onto the tableau
 					    setHasMovedToFoundation(true);
 					}
 					
@@ -145,6 +146,7 @@ public class GameMoveListener extends MouseInputAdapter {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	    
+	    //The statement directly below means that the player has clicked on the card in question on sent it to foundation. This overrides the drag n' drop feature to prevent bugs.
 	    if(isHasMovedToFoundation()) {return;}
 	    if(isGameWon) {return;}
 	    Boolean vegas_rules = score.isVegas_rules();

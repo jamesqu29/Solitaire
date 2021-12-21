@@ -51,6 +51,7 @@ public class GamePanel extends JPanel {
 	    
 	    Color backgroundColor = new Color(0, 130, 10);
 	    Border border = BorderFactory.createLineBorder(Color.DARK_GRAY, 1);
+
 	    
 	    timer = new GameTimer(TIMER_POSITION.x, TIMER_POSITION.y);
         add(timer);
@@ -67,7 +68,7 @@ public class GamePanel extends JPanel {
         
         timerTitle.setBounds(585, 15, 100, 20);
         timerTitle.setText("Time");
-        timerTitle.setFont(new Font("Verdana", Font.PLAIN, 15));
+        timerTitle.setFont(new Font("Verdana", Font.BOLD, 15));
         timerTitle.setOpaque(true);
         timerTitle.setHorizontalAlignment(JTextField.CENTER);
         timerTitle.setBackground(backgroundColor);
@@ -76,7 +77,7 @@ public class GamePanel extends JPanel {
 	    
 	    scoreTitle.setBounds(585, 115, 100, 20);
 	    scoreTitle.setText("Score");
-	    scoreTitle.setFont(new Font("Verdana", Font.PLAIN, 15));
+	    scoreTitle.setFont(new Font("Verdana", Font.BOLD, 15));
 	    scoreTitle.setOpaque(true);
 	    scoreTitle.setHorizontalAlignment(JTextField.CENTER);
 	    scoreTitle.setBackground(backgroundColor);
@@ -86,7 +87,7 @@ public class GamePanel extends JPanel {
         
         moveCounterTitle.setBounds(585, 215, 100, 20);
         moveCounterTitle.setText("Moves");
-        moveCounterTitle.setFont(new Font("Verdana", Font.PLAIN, 15));
+        moveCounterTitle.setFont(new Font("Verdana", Font.BOLD, 15));
         moveCounterTitle.setOpaque(true);
         moveCounterTitle.setHorizontalAlignment(JTextField.CENTER);
         moveCounterTitle.setBackground(backgroundColor);
